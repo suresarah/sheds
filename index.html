@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ask Me About My Sheds</title>
+<meta name="description" content="Sarah Leach's shed drawings: the She Shed, We Shed, He Shed, and a 1967 Caravel Airstream.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #111;
+    --lime: #e8f77c;
+    --sage: #d5f19c;
+    --taupe: #d4ccbe;
+    --display: "Yeseva One", Georgia, serif;
+    --label: "Jost", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  body {
+    background: var(--lime);
+    color: var(--ink);
+    font-family: var(--label);
+    overflow: hidden;
+  }
+
+  /* Drifting gradient, standing in for the original background video */
+  .bg {
+    position: fixed; inset: -20%;
+    background:
+      radial-gradient(40% 50% at 25% 20%, var(--taupe), transparent 70%),
+      radial-gradient(45% 45% at 80% 15%, var(--sage), transparent 70%),
+      radial-gradient(60% 50% at 30% 90%, var(--lime), transparent 70%),
+      radial-gradient(50% 50% at 85% 80%, #dfe9a6, transparent 70%),
+      var(--lime);
+    filter: blur(30px);
+    animation: drift 18s ease-in-out infinite alternate;
+  }
+  @keyframes drift {
+    0%   { transform: translate(0, 0) rotate(0deg) scale(1); }
+    50%  { transform: translate(-4%, 3%) rotate(6deg) scale(1.08); }
+    100% { transform: translate(3%, -2%) rotate(-4deg) scale(1.04); }
+  }
+  @media (prefers-reduced-motion: reduce) { .bg { animation: none; } }
+
+  /* Fixed 1024x600 canvas, scaled to fit the window like the original */
+  .stage {
+    position: fixed; inset: 0;
+    display: grid; place-items: center;
+  }
+  .canvas {
+    position: relative;
+    width: 1024px; height: 600px;
+    flex: none;
+    transform: scale(var(--s, 1));
+  }
+  .frame {
+    position: absolute; left: 19px; top: 22px; width: 985px; height: 554px;
+    border: 1px solid var(--ink);
+    border-radius: 34px;
+    pointer-events: none;
+  }
+  .word {
+    position: absolute;
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 114px;
+    line-height: 150px;
+    white-space: nowrap;
+  }
+  .shed {
+    position: absolute; display: block;
+    transition: transform .35s cubic-bezier(.2,.8,.3,1.2);
+  }
+  .shed img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .shed:hover, .shed:focus-visible { transform: translateY(-6px) rotate(-1deg) scale(1.03); }
+  .shed:focus-visible { outline: 1px dashed var(--ink); outline-offset: 6px; }
+  .label {
+    position: absolute;
+    font-weight: 300;
+    font-size: 12px;
+    line-height: 14px;
+    text-align: center;
+  }
+  .label.tiny { font-size: 8px; line-height: 10px; }
+
+  /* Phone: stack it */
+  @media (max-width: 700px) {
+    body { overflow: auto; }
+    .bg { position: fixed; }
+    .stage { position: relative; display: block; padding: 16px; }
+    .canvas {
+      width: auto; height: auto; transform: none;
+      border: 1px solid var(--ink); border-radius: 28px;
+      padding: 28px 20px 36px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .frame { display: none; }
+    .canvas > * { position: static !important; width: auto !important; height: auto !important; }
+    .word { font-size: clamp(56px, 18vw, 88px); line-height: 1; text-align: center; }
+    .item { display: flex; flex-direction: column; align-items: center; gap: 6px; margin: 10px 0; }
+    .shed { width: 100%; }
+    .label.tiny { display: none; }
+    .label { font-size: 14px; line-height: 1.3; }
+  }
+  @media (min-width: 701px) { .item { display: contents; } }
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+
+<main class="stage">
+  <div class="canvas" id="canvas">
+    <div class="frame" aria-hidden="true"></div>
+
+    <h1 class="word" style="left:123px;top:85px">ask me</h1>
+
+    <div class="item">
+      <a class="shed" href="http://sarahleach.design/sheshed" style="left:543px;top:65px;width:330px;height:176px">
+        <img src="img/shes.png" alt="Line drawing of the She Shed, a wall of salvaged windows with café lights along the roof">
+      </a>
+      <p class="label" style="left:657px;top:245px;width:102px">She Shed</p>
+    </div>
+
+    <p class="word" style="left:404px;top:239px">about my</p>
+
+    <div class="item">
+      <a class="shed" href="https://www.pinterest.com/prettycasualspace/we-shed/" target="_blank" rel="noopener" style="left:73px;top:245px;width:309px;height:131px">
+        <img src="img/we.png" alt="Line drawing of the We Shed, with a bar counter, two stools and a lean-to">
+      </a>
+      <p class="label tiny" style="left:303px;top:275px;width:80px">Good Enough Shed</p>
+      <p class="label" style="left:103px;top:379px;width:102px">We Shed</p>
+    </div>
+
+    <p class="word" style="left:139px;top:386px">sheds</p>
+
+    <div class="item">
+      <a class="shed" href="https://www.pinterest.com/prettycasualspace/he-shed/" target="_blank" rel="noopener" style="left:482px;top:410px;width:199px;height:107px">
+        <img src="img/he.png" alt="Line drawing of the He Shed, with a glass-paneled garage door">
+      </a>
+      <p class="label" style="left:511px;top:525px;width:133px">He Shed</p>
+    </div>
+
+    <div class="item">
+      <a class="shed" href="https://www.pinterest.com/prettycasualspace/airstream/" target="_blank" rel="noopener" style="left:714px;top:428px;width:170px;height:87px">
+        <img src="img/air.png" alt="Line drawing of a 1967 Caravel Airstream trailer">
+      </a>
+      <p class="label" style="left:736px;top:525px;width:133px">1967 Caravel Airstream<br>(I know...not a shed)</p>
+    </div>
+  </div>
+</main>
+
+<script>
+  const c = document.getElementById('canvas');
+  const fit = () => c.style.setProperty('--s', Math.min(innerWidth / 1024, innerHeight / 600));
+  addEventListener('resize', fit); fit();
+</script>
+</body>
+</html>
