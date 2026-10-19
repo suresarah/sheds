@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wdth,wght@62..125,500..900&display=swap" rel="stylesheet">
 <style>
-  /* Full-bleed two-column checkerboard of color blocks: text halves on cream, blueprint drawings on color, one poster block */
+  /* Full-bleed two-column checkerboard of color blocks: headline on cream across the left half, four drawing squares in a 2x2 on the right */
   :root {
     --paper: #f6ecd8;
     --ink: #1c1a16;
@@ -56,10 +56,10 @@
     grid-template-rows: repeat(2, var(--h));
     grid-template-areas:
       "copy copy she we"
-      "he air poster poster";
+      "copy copy he air";
   }
   .copy { grid-area: copy; } .she { grid-area: she; } .we { grid-area: we; }
-  .he { grid-area: he; } .air { grid-area: air; } .poster { grid-area: poster; }
+  .he { grid-area: he; } .air { grid-area: air; }
   .block {
     position: relative; min-width: 0; min-height: 0;
     display: flex; align-items: center; justify-content: center;
@@ -68,12 +68,12 @@
 
   /* Text half */
   .copy { background: var(--paper); justify-content: flex-start; padding: 0 clamp(28px, 4vw, 64px); }
-  .copy-inner { display: grid; gap: clamp(18px, 2.4vw, 36px); }
-  h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(44px, min(5.6vw, 9.5svh), 104px); line-height: .9; letter-spacing: -.01em; }
+  .copy-inner { display: grid; gap: clamp(28px, 4vw, 64px); }
+  h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(56px, min(8.6vw, 16svh), 168px); line-height: .9; letter-spacing: -.01em; }
   h1 em { color: var(--tomato); }
-  .facts { display: grid; grid-template-columns: repeat(4, auto); justify-content: start; gap: 16px clamp(20px, 2.6vw, 40px); }
-  .facts p { font-family: var(--serif); font-size: clamp(16px, 1.3vw, 21px); line-height: 1.2; margin-top: 6px; }
-  .facts .lbl { display: block; font-size: 10.5px; }
+  .facts { display: grid; grid-template-columns: repeat(2, auto); justify-content: start; gap: 16px clamp(20px, 2.6vw, 40px); }
+  .facts p { font-family: var(--serif); font-size: clamp(18px, 1.6vw, 24px); line-height: 1.2; margin-top: 6px; }
+  .facts .lbl { display: block; font-size: 11.5px; }
   .facts a { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 
   /* Drawing block: flat color print with a cream keyline */
@@ -127,7 +127,7 @@
   /* Round badge with text set on a circle */
   .badge {
     position: absolute; z-index: 2; width: clamp(84px, 7.5vw, 124px); aspect-ratio: 1;
-    right: clamp(18px, 2vw, 32px); top: clamp(18px, 2vw, 32px);
+    right: clamp(24px, 3vw, 48px); bottom: clamp(24px, 3vw, 48px);
     border-radius: 50%; background: var(--paper); border: 2px solid var(--ink);
     display: grid; place-items: center;
   }
@@ -135,14 +135,6 @@
   .badge text { font-family: var(--sans); font-weight: 800; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; fill: var(--ink); }
   .badge b { font-family: var(--serif); font-weight: 400; font-style: italic; font-size: clamp(22px, 2.2vw, 34px); color: var(--tomato); }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Poster half */
-  .poster { background: var(--mustard); flex-direction: column; text-align: center; color: var(--cobalt); padding: 0 6%; }
-  .poster small { font-weight: 800; font-size: clamp(16px, 1.8vw, 28px); letter-spacing: .02em; text-transform: uppercase; font-stretch: 80%; }
-  .poster strong {
-    display: block; font-weight: 900; font-stretch: 62%; text-transform: uppercase;
-    font-size: clamp(64px, min(10vw, 19svh), 190px); line-height: .85; white-space: nowrap; letter-spacing: -.01em;
-  }
 
   /* Footer strip */
   .foot {
@@ -171,7 +163,7 @@
     .mark { font-size: 26px; }
     .board {
       grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none;
-      grid-template-areas: "copy copy" "she we" "he air" "poster poster";
+      grid-template-areas: "copy copy" "she we" "he air";
     }
     .block { aspect-ratio: 1; }
     .facts { grid-template-columns: 1fr 1fr; }
@@ -179,11 +171,9 @@
     .tag { font-size: 9px; letter-spacing: .08em; gap: 6px; padding-right: 10px; }
     .tag i { width: 18px; height: 18px; font-size: 8.5px; }
     .callout { right: 14px; top: 14px; font-size: 7.5px; padding: 3px 7px; }
-    .badge { width: 72px; right: 12px; top: 12px; }
+    .badge { width: 72px; right: 16px; bottom: 16px; }
     .badge text { font-size: 8px; }
-    .poster strong { font-size: clamp(56px, 17vw, 96px); }
     .copy { aspect-ratio: auto; padding-block: 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-    .poster { aspect-ratio: auto; padding-block: 64px; }
     .foot { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   }
 </style>
@@ -204,6 +194,10 @@
 
 <main id="top" class="board">
     <div class="block copy">
+      <div class="badge" aria-hidden="true">
+        <svg viewBox="0 0 160 160"><defs><path id="ring" d="M80 80m-60 0a60 60 0 1 1 120 0a60 60 0 1 1-120 0"/></defs><text><textPath href="#ring" textLength="370" lengthAdjust="spacing">Ask me about my sheds &#183; Ask me about my sheds &#183;</textPath></text></svg>
+        <b>SL</b>
+      </div>
       <div class="copy-inner">
         <h1>Ask me<br><em>about my</em><br>sheds.</h1>
         <div class="facts">
@@ -227,16 +221,9 @@
       <img src="img/he.png" alt="Elevation of the He Shed, with a glass-paneled garage door">
       <span class="tag"><i>03</i>He Shed</span>
     </a>
-    <div class="block poster">
-      <div class="badge" aria-hidden="true">
-        <svg viewBox="0 0 160 160"><defs><path id="ring" d="M80 80m-60 0a60 60 0 1 1 120 0a60 60 0 1 1-120 0"/></defs><text><textPath href="#ring" textLength="370" lengthAdjust="spacing">Ask me about my sheds &#183; Ask me about my sheds &#183;</textPath></text></svg>
-        <b>SL</b>
-      </div>
-      <small>I know&hellip;</small>
-      <strong>Not a shed</strong>
-    </div>
     <a class="block dwg air" id="air" href="https://www.pinterest.com/prettycasualspace/airstream/" target="_blank" rel="noopener">
       <img src="img/air.png" alt="Side elevation of a 1967 Caravel Airstream trailer">
+      <span class="callout">I know&hellip; not a shed</span>
       <span class="tag"><i>04</i>1967 Airstream</span>
     </a>
 </main>
