@@ -43,10 +43,7 @@
     width: 1120px; height: 660px; flex: none;
     transform: scale(var(--s, 1));
     padding: 16px;
-    background:
-      linear-gradient(rgba(28,26,22,.07) 1px, transparent 1px) 0 0 / 20px 20px,
-      linear-gradient(90deg, rgba(28,26,22,.07) 1px, transparent 1px) 0 0 / 20px 20px,
-      var(--paper);
+    background: var(--paper);
     box-shadow: 0 30px 80px rgba(0, 0, 0, .45);
   }
   .frame {
@@ -148,9 +145,7 @@
   .index a { display: grid; grid-template-columns: 14px 22px 1fr; align-items: center; }
   .index a::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--dot); border: 1px solid var(--ink); }
   .index a:hover span:last-child, .index a:focus-visible span:last-child { text-decoration: underline; text-underline-offset: 3px; }
-  .grow { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; background: var(--mustard); border-bottom: 0; }
-  .grow .lbl { color: var(--ink); }
-  .sheetno { font-family: var(--serif); font-size: 54px; line-height: 1; }
+  .cell:last-child { border-bottom: 0; }
 
   @media (prefers-reduced-motion: reduce) { .dwg, .dwg img { transition: none; } }
 
@@ -171,7 +166,6 @@
     .dwg { padding: 26px 18px 38px; }
     .dwg img { width: 100%; max-height: none; }
     .block { border-left: 0; border-top: 1.5px solid var(--ink); }
-    .sheetno { font-size: 40px; }
   }
 </style>
 </head>
@@ -222,7 +216,6 @@
           </ol>
         </div>
         <div class="cell"><span class="lbl">Scale</span><p class="val">Not to scale</p></div>
-        <div class="cell grow"><span class="lbl">Sheet</span><p class="sheetno">A&ndash;101</p></div>
       </aside>
     </div>
   </div>
