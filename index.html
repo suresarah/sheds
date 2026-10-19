@@ -13,7 +13,6 @@
   /* One drawing sheet on cream drafting paper: each elevation printed as its own colored blueprint panel, title block down the right edge */
   :root {
     --paper: #f3ead3;
-    --desk: #1c1a16;
     --ink: #1c1a16;
     --ink-soft: rgba(28, 26, 22, .6);
     --chalk: #fbf6ea;
@@ -30,7 +29,7 @@
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   body {
-    background: var(--desk);
+    background: var(--paper);
     color: var(--ink);
     font-family: var(--mono);
     overflow: hidden;
@@ -42,18 +41,12 @@
   .sheet {
     width: 1120px; height: 660px; flex: none;
     transform: scale(var(--s, 1));
-    padding: 16px;
     background: var(--paper);
-    box-shadow: 0 30px 80px rgba(0, 0, 0, .45);
   }
   .frame {
     height: 100%;
-    border: 1.5px solid var(--ink);
-    outline: 1px solid var(--ink-soft);
-    outline-offset: 5px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) 210px;
-    grid-template-rows: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
   }
 
   /* Drawing field */
@@ -62,8 +55,8 @@
     grid-template-columns: repeat(12, minmax(0, 1fr));
     grid-template-rows: minmax(0, 1.15fr) minmax(0, 1fr);
     min-height: 0;
-    gap: 30px 22px;
-    padding: 30px 30px 34px;
+    gap: 34px 26px;
+    padding: 8px 0 40px;
     min-width: 0;
   }
   .masthead { grid-column: 1 / 5; grid-row: 1; display: flex; flex-direction: column; justify-content: space-between; }
@@ -137,15 +130,17 @@
   }
 
   /* Title block */
-  .block { border-left: 1.5px solid var(--ink); display: flex; flex-direction: column; min-height: 0; }
-  .cell { padding: 14px 16px; border-bottom: 1px solid var(--ink-soft); }
+  .block { border-top: 1.5px solid var(--ink); display: flex; }
+  .cell { padding: 14px 22px 4px; border-right: 1px solid var(--ink-soft); }
+  .cell:first-child { padding-left: 0; }
+  .cell.wide { flex: 1; }
   .lbl { display: block; font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 6px; }
   .val { font-family: var(--serif); font-size: 20px; line-height: 1.15; }
-  .index { list-style: none; display: grid; gap: 7px; font-size: 11px; line-height: 1.35; }
+  .index { list-style: none; display: flex; flex-wrap: wrap; gap: 6px 22px; font-size: 11px; line-height: 1.35; }
   .index a { display: grid; grid-template-columns: 14px 22px 1fr; align-items: center; }
   .index a::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--dot); border: 1px solid var(--ink); }
   .index a:hover span:last-child, .index a:focus-visible span:last-child { text-decoration: underline; text-underline-offset: 3px; }
-  .cell:last-child { border-bottom: 0; }
+  .cell:last-child { border-right: 0; padding-right: 0; }
 
   @media (prefers-reduced-motion: reduce) { .dwg, .dwg img { transition: none; } }
 
@@ -165,7 +160,9 @@
     .masthead { gap: 18px; }
     .dwg { padding: 26px 18px 38px; }
     .dwg img { width: 100%; max-height: none; }
-    .block { border-left: 0; border-top: 1.5px solid var(--ink); }
+    .block { flex-direction: column; margin: 0 18px; }
+    .cell, .cell:first-child { padding: 14px 0; border-right: 0; border-bottom: 1px solid var(--ink-soft); }
+    .cell:last-child { border-bottom: 0; }
   }
 </style>
 </head>
@@ -206,7 +203,7 @@
       <aside class="block" aria-label="Title block">
         <div class="cell"><span class="lbl">Project</span><p class="val">Ask me about my sheds</p></div>
         <div class="cell"><span class="lbl">Drawn by</span><p class="val">Sarah Leach</p></div>
-        <div class="cell">
+        <div class="cell wide">
           <span class="lbl">Drawing index</span>
           <ol class="index">
             <li><a href="#d1" style="--dot: var(--tomato)"><span>01</span><span>She Shed</span></a></li>
@@ -223,7 +220,7 @@
 
 <script>
   const s = document.getElementById('sheet');
-  const fit = () => s.style.setProperty('--s', Math.min((innerWidth - 48) / 1120, (innerHeight - 48) / 660));
+  const fit = () => s.style.setProperty('--s', Math.min((innerWidth - 80) / 1120, (innerHeight - 80) / 660));
   addEventListener('resize', fit); fit();
 </script>
 </body>
