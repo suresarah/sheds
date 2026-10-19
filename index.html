@@ -52,25 +52,28 @@
   /* Drawing field */
   .field {
     display: grid;
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-    grid-template-rows: minmax(0, 1.15fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 48px;
+    padding-bottom: 28px;
     min-height: 0;
-    gap: 34px 26px;
-    padding: 8px 0 40px;
-    min-width: 0;
   }
-  .masthead { grid-column: 1 / 5; grid-row: 1; display: flex; flex-direction: column; justify-content: space-between; }
+  .masthead { display: flex; flex-direction: column; justify-content: space-between; padding-block: 6px 4px; }
   .kicker { font-size: 10.5px; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft); }
   h1 {
     font-family: var(--serif);
     font-weight: 400;
-    font-size: 66px;
-    line-height: .92;
+    font-size: 104px;
+    line-height: .9;
     white-space: nowrap;
     letter-spacing: -.01em;
   }
   h1 em { font-style: italic; color: var(--tomato); }
-  .dek { font-family: var(--serif); font-size: 17px; line-height: 1.3; color: var(--ink-soft); max-width: 24ch; }
+
+  /* Four equal squares, butted together with no gutters */
+  .tiles {
+    width: 560px; height: 560px; align-self: end;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
 
   /* Each drawing: a colored blueprint print with its own grid and a cream keyline */
   .dwg {
@@ -78,32 +81,32 @@
     position: relative;
     min-width: 0; min-height: 0;
     display: flex; align-items: center; justify-content: center;
-    padding: 22px 22px 34px;
+    padding: 40px 14px 50px;
     background:
       linear-gradient(rgba(251,246,234,.12) 1px, transparent 1px) 0 0 / 16px 16px,
       linear-gradient(90deg, rgba(251,246,234,.12) 1px, transparent 1px) 0 0 / 16px 16px,
       var(--c);
     outline: 1px solid rgba(251,246,234,.75);
     outline-offset: -7px;
-    transition: transform .35s ease, box-shadow .35s ease;
   }
   .dwg img {
-    display: block; max-width: 100%; max-height: 100%;
+    display: block; width: 100%; max-height: 100%; object-fit: contain;
     filter: invert(1) brightness(1.02);
     transition: transform .4s ease;
   }
-  .dwg:hover, .dwg:focus-visible { transform: translateY(-3px); box-shadow: 5px 6px 0 var(--ink); }
-  .dwg:hover img, .dwg:focus-visible img { transform: scale(1.03); }
-  .dwg:focus-visible { outline: 2px solid var(--chalk); }
+  .dwg:hover img, .dwg:focus-visible img { transform: scale(1.05); }
+  .dwg:hover .tag, .dwg:focus-visible .tag { background: var(--chalk); }
+  .dwg:focus-visible { outline: 2px solid var(--chalk); z-index: 1; }
 
-  .she { --c: var(--tomato); grid-column: 5 / 13; grid-row: 1; }
-  .we  { --c: var(--green);  grid-column: 1 / 5; grid-row: 2; }
-  .he  { --c: var(--cobalt); grid-column: 5 / 9; grid-row: 2; }
-  .air { --c: var(--pink);   grid-column: 9 / 13; grid-row: 2; }
+  .she { --c: var(--tomato); }
+  .we  { --c: var(--green); }
+  .he  { --c: var(--cobalt); }
+  .air { --c: var(--pink); }
 
-  /* Pill labels, straddling the bottom edge of each print */
+  /* Pill labels, sitting at the foot of each print */
   .tag {
-    position: absolute; left: 50%; bottom: 0; transform: translate(-50%, 50%);
+    position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%);
+    transition: background-color .25s;
     display: inline-flex; align-items: center; gap: 8px;
     padding: 4px 12px 4px 4px;
     border: 1.5px solid var(--ink); border-radius: 99px;
@@ -124,7 +127,7 @@
 
   /* Leader-line callout on the We Shed lean-to */
   .callout {
-    position: absolute; right: 26px; top: 16px;
+    position: absolute; right: 16px; top: 16px;
     font-size: 8.5px; letter-spacing: .14em; text-transform: uppercase; color: var(--chalk);
     padding: 2px 7px; border: 1px solid var(--chalk); border-radius: 99px;
   }
@@ -142,7 +145,7 @@
   .index a:hover span:last-child, .index a:focus-visible span:last-child { text-decoration: underline; text-underline-offset: 3px; }
   .cell:last-child { border-right: 0; padding-right: 0; }
 
-  @media (prefers-reduced-motion: reduce) { .dwg, .dwg img { transition: none; } }
+  @media (prefers-reduced-motion: reduce) { .dwg img, .tag { transition: none; } }
 
   /* Phone: the sheet becomes a long scroll, title block at the end */
   @media (max-width: 760px) {
@@ -155,11 +158,11 @@
     }
     .sheet { width: auto; height: auto; transform: none; padding: 10px; }
     .frame { grid-template-columns: 1fr; }
-    .field { display: flex; flex-direction: column; gap: 48px; padding: 28px 18px 40px; }
+    .field { display: flex; flex-direction: column; gap: 32px; padding: 28px 18px 36px; }
+    .tiles { height: auto; width: 100%; grid-template-columns: 1fr; grid-template-rows: none; aspect-ratio: auto; }
+    .dwg { aspect-ratio: 1; }
     h1 { font-size: clamp(54px, 17vw, 78px); }
     .masthead { gap: 18px; }
-    .dwg { padding: 26px 18px 38px; }
-    .dwg img { width: 100%; max-height: none; }
     .block { flex-direction: column; margin: 0 18px; }
     .cell, .cell:first-child { padding: 14px 0; border-right: 0; border-bottom: 1px solid var(--ink-soft); }
     .cell:last-child { border-bottom: 0; }
@@ -174,9 +177,9 @@
         <header class="masthead">
           <p class="kicker">Elevations &middot; Four structures</p>
           <h1>Ask me<br><em>about my</em><br>sheds.</h1>
-          <p class="dek">Three sheds and one trailer, drawn as elevations.</p>
         </header>
 
+        <div class="tiles">
         <a class="dwg she" id="d1" href="http://sarahleach.design/sheshed">
           <img src="img/shes.png" alt="Elevation of the She Shed, a wall of salvaged windows with café lights along the roof">
           <span class="tag"><i>01</i>She Shed</span>
@@ -198,6 +201,7 @@
           <span class="callout">I know&hellip; not a shed</span>
           <span class="tag"><i>04</i>1967 Airstream</span>
         </a>
+        </div>
       </section>
 
       <aside class="block" aria-label="Title block">
