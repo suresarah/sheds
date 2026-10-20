@@ -51,9 +51,15 @@
   /* Text half */
   .copy { background: var(--paper); justify-content: flex-start; padding: 0 clamp(20px, 2.4vw, 40px); }
   h1 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, min(3.5vw, 9svh), 96px); line-height: 1.05; color: var(--cobalt); }
-  /* Script logo from the portfolio, top-left of the headline column */
-  .logo { position: absolute; left: clamp(20px, 2.4vw, 40px); top: clamp(18px, 2vw, 30px); display: block; transition: transform .3s; }
-  .logo img { display: block; width: clamp(80px, 7vw, 120px); height: auto; }
+  /* Script logo from the portfolio, tinted cobalt by using the PNG as a mask, top-left of the headline column */
+  .logo {
+    position: absolute; left: clamp(20px, 2.4vw, 40px); top: clamp(18px, 2vw, 30px);
+    display: block; width: clamp(80px, 7vw, 120px); aspect-ratio: 371 / 279;
+    background: var(--cobalt);
+    -webkit-mask: url(img/sarahleach-logo.png) center / contain no-repeat;
+    mask: url(img/sarahleach-logo.png) center / contain no-repeat;
+    transition: transform .3s;
+  }
   .logo:hover, .logo:focus-visible { transform: rotate(-4deg); }
 
   /* Portfolio link and copyright pinned to the bottom. The link uses the same pill as the drawing labels, in the headline's cobalt */
@@ -137,7 +143,7 @@
 <body>
 <main class="board">
     <div class="block copy">
-      <a class="logo" href="https://sarahleach.design/"><img src="img/sarahleach-logo.png" alt="Sarah Leach, design portfolio" width="371" height="279"></a>
+      <a class="logo" href="https://sarahleach.design/" aria-label="Sarah Leach, design portfolio"></a>
       <h1>Ask me<br>about my<br>sheds</h1>
       <div class="foot">
         <a class="lbl home" href="https://sarahleach.design/">&larr; Design portfolio</a>
