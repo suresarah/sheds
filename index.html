@@ -95,35 +95,21 @@
     padding: 4px 10px; border: 1.5px solid var(--chalk); border-radius: 99px;
   }
 
-  /* Round badge with text set on a circle */
-  .badge {
-    position: absolute; z-index: 2; width: clamp(84px, 7.5vw, 124px); aspect-ratio: 1;
-    right: clamp(24px, 3vw, 48px); bottom: clamp(24px, 3vw, 48px);
-    border-radius: 50%; background: var(--paper); border: 2px solid var(--ink);
-    display: grid; place-items: center;
-  }
-  .badge svg { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 24s linear infinite; }
-  .badge text { font-family: var(--sans); font-weight: 800; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; fill: var(--ink); }
-  .badge b { font-family: var(--serif); font-weight: 400; font-style: italic; font-size: clamp(22px, 2.2vw, 34px); color: var(--tomato); }
-  @keyframes spin { to { transform: rotate(360deg); } }
 
   @media (prefers-reduced-motion: reduce) {
-    .badge svg { animation: none; }
     .dwg img, .tag { transition: none; }
   }
 
-  /* Phone: one column of square blocks */
+  /* Phone: the headline, then the four drawings stacked one per row */
   @media (max-width: 680px) {
     .board {
-      grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none;
-      grid-template-areas: "copy copy" "she we" "he air";
+      grid-template-columns: minmax(0, 1fr); grid-template-rows: none;
+      grid-template-areas: "copy" "she" "we" "he" "air";
     }
     .block { aspect-ratio: 1; }
     h1 { font-size: clamp(56px, 17vw, 84px); }
     .tag { font-size: 9px; letter-spacing: .08em; padding: 4px 10px; }
     .callout { right: 14px; top: 14px; font-size: 7.5px; padding: 3px 7px; }
-    .badge { width: 72px; right: 16px; bottom: 16px; }
-    .badge text { font-size: 8px; }
     .copy { aspect-ratio: auto; padding-block: 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   }
 </style>
@@ -131,10 +117,6 @@
 <body>
 <main class="board">
     <div class="block copy">
-      <div class="badge" aria-hidden="true">
-        <svg viewBox="0 0 160 160"><defs><path id="ring" d="M80 80m-60 0a60 60 0 1 1 120 0a60 60 0 1 1-120 0"/></defs><text><textPath href="#ring" textLength="370" lengthAdjust="spacing">Ask me about my sheds &#183; Ask me about my sheds &#183;</textPath></text></svg>
-        <b>SL</b>
-      </div>
       <h1>Ask me<br><em>about my</em><br>sheds.</h1>
     </div>
     <a class="block dwg she" id="she" href="http://sarahleach.design/sheshed">
