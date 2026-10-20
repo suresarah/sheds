@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ask Me About My Sheds</title>
+<script>document.documentElement.classList.add("js")</script>
 <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
@@ -105,7 +106,7 @@
     filter: invert(1) brightness(1.02);
     transition: transform .5s cubic-bezier(.2,.8,.3,1.2);
   }
-  .dwg:hover img, .dwg:focus-visible img { transform: scale(1.04) rotate(-.6deg); }
+  .dwg:hover img, .dwg:focus-visible img { transform: translate(calc(var(--mx, 0) * -6px), calc(var(--my, 0) * -6px)) scale(1.04) rotate(-.6deg); }
 
   /* On hover the real shed fades in under the drawing: the photo settles from a slight zoom while
      the linework fades out, and the bottom melts into the square's own color so the label still reads. */
@@ -122,8 +123,10 @@
   .dwg img { position: relative; z-index: 1; transition: transform .5s cubic-bezier(.2,.8,.3,1.2), opacity .45s ease; }
   .dwg::before, .tag, .callout { z-index: 2; }
   @media (hover: hover) {
-    .dwg:hover .photo { opacity: 1; transform: none; }
+    .dwg:hover .photo { opacity: 1; transform: translate(calc(var(--mx, 0) * -8px), calc(var(--my, 0) * -8px)) scale(1.03); }
     .dwg:hover img { opacity: 0; }
+    .js .dwg:hover .photo:not(.ready) { opacity: 0; }
+    .js .dwg:hover .photo:not(.ready) + img { opacity: 1; }
   }
   .dwg:focus-visible .photo { opacity: 1; transform: none; }
   /* corner callouts get a solid backing in the square's color so they read over bright sky */
@@ -176,35 +179,68 @@
     .callout { right: 14px; top: 14px; font-size: 7.5px; padding: 3px 7px; }
     .copy { aspect-ratio: auto; padding-block: 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
   }
+
+  /* ---------- loading states and small interactions ---------- */
+  /* while a drawing loads, its square shimmers; once loaded the linework draws in left to right */
+  .dwg::after {
+    content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0;
+    background: linear-gradient(105deg, transparent 35%, rgba(251,246,234,.16) 50%, transparent 65%) 0 0 / 250% 100%;
+    transition: opacity .4s ease;
+  }
+  .js .dwg:not(.loaded)::after { opacity: 1; animation: shimmer 1.3s linear infinite; }
+  @keyframes shimmer { from { background-position: 100% 0; } to { background-position: -150% 0; } }
+  .js .dwg img { clip-path: inset(0 100% 0 0); }
+  .js .dwg.loaded img { clip-path: inset(0 0 0 0); transition: clip-path 1.1s cubic-bezier(.6,0,.2,1), transform .5s cubic-bezier(.2,.8,.3,1.2), opacity .45s ease; }
+  /* label pills grow a small arrow on hover: on to the She Shed site, out to Pinterest for the rest */
+  .tag::after { content: "\2197"; display: inline-block; width: 0; opacity: 0; overflow: hidden; transition: width .25s ease, opacity .25s ease, margin .25s ease; }
+  .she .tag::after { content: "\2192"; }
+  .dwg:hover .tag::after, .dwg:focus-visible .tag::after { width: 1em; margin-left: .45em; opacity: 1; }
+  .dwg:active .tag { transform: translateX(-50%) scale(.95); }
+  .home { transition: background-color .25s, color .25s, transform .2s ease; }
+  .home:active { transform: scale(.96); }
+  @media (prefers-reduced-motion: no-preference) {
+    /* entrance: headline lines rise in turn, the squares wipe up one after another, the rest fades in */
+    .js h1 .ln { display: inline-block; animation: rise .9s cubic-bezier(.2,.8,.2,1) both; animation-delay: calc(var(--i) * 110ms + 120ms); }
+    @keyframes rise { from { opacity: 0; transform: translateY(.4em); } }
+    .js .dwg { animation: wipe .95s cubic-bezier(.7,0,.2,1) both; animation-delay: calc(var(--i) * 110ms + 200ms); }
+    @keyframes wipe { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+    .js .logo, .js .foot { animation: fadein .8s ease both .55s; }
+    @keyframes fadein { from { opacity: 0; } }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js .dwg img { clip-path: none; }
+    .js .dwg:not(.loaded)::after { animation: none; opacity: .5; }
+    .tag::after { transition: none; }
+  }
 </style>
 </head>
 <body>
 <main class="board">
     <div class="block copy">
       <a class="logo" href="https://sarahleach.design/" aria-label="Sarah Leach, design portfolio"></a>
-      <h1>Ask me<br>about<br>my sheds</h1>
+      <h1><span class="ln" style="--i:0">Ask me</span><br><span class="ln" style="--i:1">about</span><br><span class="ln" style="--i:2">my sheds</span></h1>
       <div class="foot">
         <a class="lbl home" href="https://sarahleach.design/">&larr; Design portfolio</a>
         <small class="copyright">&copy; 2026 Sarah Leach</small>
       </div>
     </div>
-    <a class="block dwg she" id="she" href="https://sheshed.sarahleach.design/">
+    <a class="block dwg she" id="she" style="--i:0" href="https://sheshed.sarahleach.design/">
       <span class="photo" style="--photo:url(img/photo-she.jpg);--pos:50% 55%" aria-hidden="true"></span>
       <img src="img/shes.png" alt="Elevation of the She Shed, a wall of salvaged windows with café lights along the roof">
       <span class="tag">She Shed</span>
     </a>
-    <a class="block dwg we" id="we" href="https://www.pinterest.com/prettycasualspace/we-shed/" target="_blank" rel="noopener">
+    <a class="block dwg we" id="we" style="--i:1" href="https://www.pinterest.com/prettycasualspace/we-shed/" target="_blank" rel="noopener">
       <span class="photo" style="--photo:url(img/photo-we.jpg);--pos:43% 50%" aria-hidden="true"></span>
       <img src="img/we.png" alt="Elevation of the We Shed, with a bar counter, two stools and a lean-to">
       <span class="callout">Good Enough Shed</span>
       <span class="tag">We Shed</span>
     </a>
-    <a class="block dwg he" id="he" href="https://www.pinterest.com/prettycasualspace/he-shed/" target="_blank" rel="noopener">
+    <a class="block dwg he" id="he" style="--i:2" href="https://www.pinterest.com/prettycasualspace/he-shed/" target="_blank" rel="noopener">
       <span class="photo" style="--photo:url(img/photo-he.jpg);--pos:50% 50%" aria-hidden="true"></span>
       <img src="img/he.png" alt="Elevation of the He Shed, with a glass-paneled garage door">
       <span class="tag">He Shed</span>
     </a>
-    <a class="block dwg air" id="air" href="https://www.pinterest.com/prettycasualspace/airstream/" target="_blank" rel="noopener">
+    <a class="block dwg air" id="air" style="--i:3" href="https://www.pinterest.com/prettycasualspace/airstream/" target="_blank" rel="noopener">
       <span class="photo" style="--photo:url(img/photo-air.jpg);--pos:52% 50%" aria-hidden="true"></span>
       <img src="img/air.png" alt="Side elevation of a 1967 Caravel Airstream trailer">
       <span class="callout">I know&hellip; not a shed</span>
@@ -212,5 +248,36 @@
     </a>
 </main>
 
+<script>
+(function(){
+  var squares = [].slice.call(document.querySelectorAll(".dwg"));
+  // loading state: mark each square once its drawing has loaded (or failed, so it never stays shimmering)
+  squares.forEach(function(sq){
+    var img = sq.querySelector("img");
+    function done(){ sq.classList.add("loaded"); }
+    if (img.complete) done(); else { img.addEventListener("load", done); img.addEventListener("error", done); }
+  });
+  // hover photos: preload them once the page has settled; a photo only takes over after it has arrived
+  function preload(){
+    squares.forEach(function(sq){
+      var ph = sq.querySelector(".photo"); if (!ph) return;
+      var url = getComputedStyle(ph).getPropertyValue("--photo").trim().replace(/^url\(["']?|["']?\)$/g, "");
+      var im = new Image(); im.onload = function(){ ph.classList.add("ready"); }; im.src = url;
+    });
+  }
+  if (document.readyState === "complete") setTimeout(preload, 300); else addEventListener("load", function(){ setTimeout(preload, 300); });
+  // depth: the drawing or photo drifts a few pixels with the cursor
+  if (matchMedia("(hover: hover) and (prefers-reduced-motion: no-preference)").matches) {
+    squares.forEach(function(sq){
+      sq.addEventListener("pointermove", function(e){
+        var r = sq.getBoundingClientRect();
+        sq.style.setProperty("--mx", ((e.clientX - r.left) / r.width * 2 - 1).toFixed(3));
+        sq.style.setProperty("--my", ((e.clientY - r.top) / r.height * 2 - 1).toFixed(3));
+      });
+      sq.addEventListener("pointerleave", function(){ sq.style.removeProperty("--mx"); sq.style.removeProperty("--my"); });
+    });
+  }
+})();
+</script>
 </body>
 </html>
