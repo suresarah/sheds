@@ -53,7 +53,7 @@
 
   /* Text half */
   .copy { background: var(--paper); justify-content: flex-start; padding: 0 clamp(20px, 2.4vw, 40px); }
-  h1 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, min(4.8vw, 12svh), 132px); line-height: 1.05; color: var(--cobalt); }
+  h1 { font-family: var(--display); font-weight: 400; font-size: clamp(44px, min(6.4vw, 13.5svh), 156px); line-height: 1.05; color: var(--cobalt); }
   /* Script logo from the portfolio, tinted cobalt by using the PNG as a mask, top-left of the headline column */
   .logo {
     position: absolute; left: clamp(20px, 2.4vw, 40px); top: clamp(18px, 2vw, 30px);
@@ -134,7 +134,7 @@
       grid-template-areas: "copy" "she" "we" "he" "air";
     }
     .block { aspect-ratio: 1; }
-    h1 { font-size: clamp(40px, 15vw, 64px); }
+    h1 { font-size: min(calc((100vw - 44px) / 6.3), 96px); }
     .copy { flex-direction: column; align-items: flex-start; gap: 28px; }
     .foot, .logo { position: static; }
     .tag { font-size: 9px; letter-spacing: .08em; padding: 4px 10px; }
