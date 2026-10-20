@@ -8,7 +8,7 @@
 <meta name="description" content="Sarah Leach's shed drawings: the She Shed, We Shed, He Shed, and a 1967 Caravel Airstream.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Archivo:wdth,wght@62..125,500..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Shade&family=Archivo:wdth,wght@62..125,500..900&display=swap" rel="stylesheet">
 <style>
   /* Full-bleed two-column checkerboard of color blocks: headline on cream across the left half, four drawing squares in a 2x2 on the right */
   :root {
@@ -21,7 +21,7 @@
     --pink: #d9558f;
     --mustard: #eec53a;
     --mint: #8fd0b6;
-    --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+    --display: "Bungee Shade", "Arial Black", Impact, sans-serif;
     --sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,8 +50,13 @@
 
   /* Text half */
   .copy { background: var(--paper); justify-content: flex-start; padding: 0 clamp(24px, 3.2vw, 56px); }
-  h1 { font-family: var(--serif); font-weight: 400; font-size: clamp(48px, min(5.6vw, 13svh), 140px); line-height: .9; letter-spacing: -.01em; }
-  h1 em { color: var(--tomato); }
+  .copy-inner { display: grid; gap: clamp(24px, 3vw, 44px); justify-items: start; }
+  h1 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, min(4.6vw, 11svh), 120px); line-height: 1.05; color: var(--cobalt); }
+  .home {
+    border-bottom: 2px solid currentColor; padding-bottom: 3px;
+    transition: color .2s;
+  }
+  .home:hover, .home:focus-visible { color: var(--tomato); }
 
   /* Drawing block: flat color print with a cream keyline */
   .dwg {
@@ -107,7 +112,7 @@
       grid-template-areas: "copy" "she" "we" "he" "air";
     }
     .block { aspect-ratio: 1; }
-    h1 { font-size: clamp(56px, 17vw, 84px); }
+    h1 { font-size: clamp(40px, 15vw, 64px); }
     .tag { font-size: 9px; letter-spacing: .08em; padding: 4px 10px; }
     .callout { right: 14px; top: 14px; font-size: 7.5px; padding: 3px 7px; }
     .copy { aspect-ratio: auto; padding-block: 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
@@ -117,7 +122,10 @@
 <body>
 <main class="board">
     <div class="block copy">
-      <h1>Ask me<br><em>about my</em><br>sheds.</h1>
+      <div class="copy-inner">
+        <h1>Ask me<br>about my<br>sheds</h1>
+        <a class="lbl home" href="https://sarahleach.design/">&larr; Sarah Leach design portfolio</a>
+      </div>
     </div>
     <a class="block dwg she" id="she" href="http://sarahleach.design/sheshed">
       <img src="img/shes.png" alt="Elevation of the She Shed, a wall of salvaged windows with café lights along the roof">
