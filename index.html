@@ -33,13 +33,12 @@
 
   .lbl { font-weight: 800; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; }
 
-  /* One screen: four true-square drawing blocks (half the screen tall, capped at a third of the width);
-     the headline column takes what's left and the headline sizes itself to fill it */
+  /* One screen in thirds: the headline column takes the left third and sizes its headline to fit;
+     the four drawing blocks share the other two thirds */
   .board {
     height: 100svh; min-height: 520px;
     display: grid;
-    --sq: min(50svh, 34vw);
-    grid-template-columns: minmax(0, 1fr) var(--sq) var(--sq);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-template-rows: repeat(2, minmax(0, 1fr));
     grid-template-areas:
       "copy she we"
