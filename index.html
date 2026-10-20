@@ -32,7 +32,7 @@
 
   /* One screen: headline column sized to its text, four drawing blocks share the rest */
   .board {
-    min-height: 100svh;
+    height: 100svh; min-height: 520px;
     display: grid;
     grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr);
     grid-template-rows: repeat(2, minmax(0, 1fr));
@@ -49,14 +49,22 @@
   }
 
   /* Text half */
-  .copy { background: var(--paper); justify-content: flex-start; padding: 0 clamp(24px, 3.2vw, 56px); }
-  .copy-inner { display: grid; gap: clamp(24px, 3vw, 44px); justify-items: start; }
-  h1 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, min(4.6vw, 11svh), 120px); line-height: 1.05; color: var(--cobalt); }
-  .home {
-    border-bottom: 2px solid currentColor; padding-bottom: 3px;
-    transition: color .2s;
+  .copy { background: var(--paper); justify-content: flex-start; padding: 0 clamp(20px, 2.4vw, 40px); }
+  h1 { font-family: var(--display); font-weight: 400; font-size: clamp(34px, min(3.5vw, 9svh), 96px); line-height: 1.05; color: var(--cobalt); }
+  /* Portfolio link and copyright pinned to the bottom. The link uses the same pill as the drawing labels, in the headline's cobalt */
+  .foot {
+    position: absolute; left: clamp(20px, 2.4vw, 40px); bottom: clamp(18px, 2vw, 30px);
+    display: grid; gap: 12px; justify-items: start;
   }
-  .home:hover, .home:focus-visible { color: var(--tomato); }
+  .copyright { font-size: 10px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: color-mix(in srgb, var(--ink) 60%, var(--paper)); }
+  .home {
+    --c: var(--cobalt); --deep: color-mix(in srgb, var(--c) 62%, var(--ink));
+    padding: 6px 14px; border: 2px solid var(--deep); border-radius: 99px;
+    background: color-mix(in srgb, var(--c) 24%, var(--chalk)); color: var(--deep);
+    font-size: 11px; letter-spacing: .12em; white-space: nowrap;
+    transition: background-color .25s, color .25s;
+  }
+  .home:hover, .home:focus-visible { background: var(--deep); color: var(--chalk); }
 
   /* Drawing block: flat color print with a cream keyline */
   .dwg {
@@ -108,11 +116,13 @@
   /* Phone: the headline, then the four drawings stacked one per row */
   @media (max-width: 680px) {
     .board {
-      grid-template-columns: minmax(0, 1fr); grid-template-rows: none;
+      height: auto; grid-template-columns: minmax(0, 1fr); grid-template-rows: none;
       grid-template-areas: "copy" "she" "we" "he" "air";
     }
     .block { aspect-ratio: 1; }
     h1 { font-size: clamp(40px, 15vw, 64px); }
+    .copy { flex-direction: column; align-items: flex-start; gap: 28px; }
+    .foot { position: static; }
     .tag { font-size: 9px; letter-spacing: .08em; padding: 4px 10px; }
     .callout { right: 14px; top: 14px; font-size: 7.5px; padding: 3px 7px; }
     .copy { aspect-ratio: auto; padding-block: 56px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
@@ -122,9 +132,10 @@
 <body>
 <main class="board">
     <div class="block copy">
-      <div class="copy-inner">
-        <h1>Ask me<br>about my<br>sheds</h1>
-        <a class="lbl home" href="https://sarahleach.design/">&larr; Sarah Leach design portfolio</a>
+      <h1>Ask me<br>about my<br>sheds</h1>
+      <div class="foot">
+        <a class="lbl home" href="https://sarahleach.design/">&larr; Design portfolio</a>
+        <small class="copyright">&copy; 2026 Sarah Leach</small>
       </div>
     </div>
     <a class="block dwg she" id="she" href="http://sarahleach.design/sheshed">
