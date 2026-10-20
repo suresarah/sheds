@@ -33,11 +33,13 @@
 
   .lbl { font-weight: 800; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; }
 
-  /* One screen: headline column sized to its text, four drawing blocks share the rest */
+  /* One screen: four true-square drawing blocks (half the screen tall, capped at a third of the width);
+     the headline column takes what's left and the headline sizes itself to fill it */
   .board {
     height: 100svh; min-height: 520px;
     display: grid;
-    grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr);
+    --sq: min(50svh, 34vw);
+    grid-template-columns: minmax(0, 1fr) var(--sq) var(--sq);
     grid-template-rows: repeat(2, minmax(0, 1fr));
     grid-template-areas:
       "copy she we"
@@ -52,8 +54,8 @@
   }
 
   /* Text half */
-  .copy { background: var(--paper); justify-content: flex-start; padding: 0 clamp(20px, 2.4vw, 40px); }
-  h1 { font-family: var(--display); font-weight: 400; font-size: clamp(44px, min(6.4vw, 13.5svh), 156px); line-height: 1.05; color: var(--cobalt); }
+  .copy { background: var(--paper); justify-content: flex-start; padding: 0 clamp(20px, 2.4vw, 40px); container-type: inline-size; }
+  h1 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, min(calc((100cqw - 2 * clamp(20px, 2.4vw, 40px)) / 4.6), 15svh), 170px); line-height: 1.05; color: var(--cobalt); }
   /* Script logo from the portfolio, tinted cobalt by using the PNG as a mask, top-left of the headline column */
   .logo {
     position: absolute; left: clamp(20px, 2.4vw, 40px); top: clamp(18px, 2vw, 30px);
@@ -96,6 +98,30 @@
     transition: transform .5s cubic-bezier(.2,.8,.3,1.2);
   }
   .dwg:hover img, .dwg:focus-visible img { transform: scale(1.04) rotate(-.6deg); }
+
+  /* On hover the real shed fades in under the drawing: the photo settles from a slight zoom while
+     the linework fades out, and the bottom melts into the square's own color so the label still reads. */
+  .photo {
+    position: absolute; inset: 0; z-index: 0;
+    background: var(--photo) var(--pos, 50% 50%) / cover no-repeat;
+    opacity: 0; transform: scale(1.08);
+    transition: opacity .55s ease, transform 1.4s cubic-bezier(.2,.7,.2,1);
+  }
+  .photo::after {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(to top, color-mix(in srgb, var(--c) 85%, transparent) 0%, color-mix(in srgb, var(--c) 25%, transparent) 30%, transparent 55%);
+  }
+  .dwg img { position: relative; z-index: 1; transition: transform .5s cubic-bezier(.2,.8,.3,1.2), opacity .45s ease; }
+  .dwg::before, .tag, .callout { z-index: 2; }
+  @media (hover: hover) {
+    .dwg:hover .photo { opacity: 1; transform: none; }
+    .dwg:hover img { opacity: 0; }
+  }
+  .dwg:focus-visible .photo { opacity: 1; transform: none; }
+  /* corner callouts get a solid backing in the square's color so they read over bright sky */
+  .callout { transition: background-color .3s ease; }
+  .dwg:hover .callout, .dwg:focus-visible .callout { background: var(--c); }
+  .dwg:focus-visible img { opacity: 0; }
   .dwg:focus-visible { outline: 3px solid var(--chalk); outline-offset: -10px; }
   .she { --c: var(--tomato); }
   .we  { --c: var(--green); }
@@ -125,6 +151,7 @@
 
   @media (prefers-reduced-motion: reduce) {
     .dwg img, .tag { transition: none; }
+    .photo { transition: opacity .2s ease; transform: none; }
   }
 
   /* Phone: the headline, then the four drawings stacked one per row */
@@ -134,7 +161,7 @@
       grid-template-areas: "copy" "she" "we" "he" "air";
     }
     .block { aspect-ratio: 1; }
-    h1 { font-size: min(calc((100vw - 44px) / 6.3), 96px); }
+    h1 { font-size: min(calc((100vw - 44px) / 4.6), 120px); }
     .copy { flex-direction: column; align-items: flex-start; gap: 28px; }
     .foot, .logo { position: static; }
     .tag { font-size: 9px; letter-spacing: .08em; padding: 4px 10px; }
@@ -147,26 +174,30 @@
 <main class="board">
     <div class="block copy">
       <a class="logo" href="https://sarahleach.design/" aria-label="Sarah Leach, design portfolio"></a>
-      <h1>Ask me<br>about my<br>sheds</h1>
+      <h1>Ask me<br>about<br>my<br>sheds</h1>
       <div class="foot">
         <a class="lbl home" href="https://sarahleach.design/">&larr; Design portfolio</a>
         <small class="copyright">&copy; 2026 Sarah Leach</small>
       </div>
     </div>
     <a class="block dwg she" id="she" href="https://sheshed.sarahleach.design/">
+      <span class="photo" style="--photo:url(img/photo-she.jpg);--pos:50% 55%" aria-hidden="true"></span>
       <img src="img/shes.png" alt="Elevation of the She Shed, a wall of salvaged windows with café lights along the roof">
       <span class="tag">She Shed</span>
     </a>
     <a class="block dwg we" id="we" href="https://www.pinterest.com/prettycasualspace/we-shed/" target="_blank" rel="noopener">
+      <span class="photo" style="--photo:url(img/photo-we.jpg);--pos:43% 50%" aria-hidden="true"></span>
       <img src="img/we.png" alt="Elevation of the We Shed, with a bar counter, two stools and a lean-to">
       <span class="callout">Good Enough Shed</span>
       <span class="tag">We Shed</span>
     </a>
     <a class="block dwg he" id="he" href="https://www.pinterest.com/prettycasualspace/he-shed/" target="_blank" rel="noopener">
+      <span class="photo" style="--photo:url(img/photo-he.jpg);--pos:50% 50%" aria-hidden="true"></span>
       <img src="img/he.png" alt="Elevation of the He Shed, with a glass-paneled garage door">
       <span class="tag">He Shed</span>
     </a>
     <a class="block dwg air" id="air" href="https://www.pinterest.com/prettycasualspace/airstream/" target="_blank" rel="noopener">
+      <span class="photo" style="--photo:url(img/photo-air.jpg);--pos:52% 50%" aria-hidden="true"></span>
       <img src="img/air.png" alt="Side elevation of a 1967 Caravel Airstream trailer">
       <span class="callout">I know&hellip; not a shed</span>
       <span class="tag">1967 Airstream</span>
